@@ -6,8 +6,12 @@ const Constraint = Matter.Constraint;
 var ground;
 var base;
 var box1,box2,box3,box4,box5,box6,box7,box8,box9,box10,box11,box12,box13,box14,box15,box16;
-var polygon;
+var polygon, polygonImg;
 var slingshot;
+
+function preload(){
+ polygonImg= loadImage ("Ball.png");
+}
 
 function setup() {
   var canvas = createCanvas(800,700);
@@ -36,6 +40,9 @@ box16 = new Box(540,245,40,70);
 polygon = Bodies.circle(200,500,20);
 World.add(world,polygon);
 
+
+
+
 slingshot = new SlingShot(this.polygon,{x:200,y:500});
 
 }
@@ -63,13 +70,19 @@ function draw() {
   box15.display();
   box16.display();
 
+
+
 slingshot.display();
+imageMode(CENTER);
+image(polygonImg,polygon.position.x,polygon.position.y,40,40);
+
 
   drawSprites();
 }
 function mouseDragged(){
 
-  Matter.Body.setPosition(polygon.body, {x: mouseX , y: mouseY});
+  Matter.Body.setPosition(this.polygon, {x: mouseX , y: mouseY});
+
   }
 
 
@@ -77,4 +90,10 @@ function mouseDragged(){
 function mouseReleased(){
   slingshot.fly();
  
+}
+
+function keyPressed(){
+  if (keyCode===32){
+    slingshot.attach(this.polygon);
+  }
 }
